@@ -39,7 +39,7 @@ export abstract class Shape implements IShape, IComparable<Shape> {
   }
 }
 
-class ShapeUtilities {
+export class ShapeUtilities {
   static calculateTotalArea(shapes: IShape[]): number {
     return shapes.reduce((acc, currentShape) => {
       return acc + currentShape.getArea();
@@ -87,9 +87,34 @@ class ShapeUtilities {
   }
 
   static getShapeTypeDistribution(shapes: IShape[]): string {
-    return "";
+    const distribution: Record<string, number> = {};
+    for (const shape of shapes) {
+      const type = shape.constructor.name;
+      distribution[type] = (distribution[type] ?? 0) + 1;
+    }
+    const entries = Object.entries(distribution);
+    if (entries.length === 0) return "No shapes available.";
+    return entries.map(([type, count]) => `${type}: ${count}`).join("\n");
   }
   static generateSummaryReport(shapes: IShape[]): string {
-    return "";
+    if (shapes.length === 0) {
+      return "Summary Report:\nNo shapes available.";
+    }
+
+    const totalArea = ShapeUtilities.calculateTotalArea(shapes);
+    const averageArea = totalArea / shapes.length;
+    const largest = ShapeUtilities.findLargestShape(shapes);
+    const smallest = ShapeUtilities.findSmallestShape(shapes);
+
+    return [
+      "Summary Report:",
+      `Total Shapes: ${shapes.length}`,
+      `Total Area: ${totalArea.toFixed(2)}`,
+      `Average Area: ${averageArea.toFixed(2)}`,
+      `Largest Shape: ${largest ? largest.id : "N/A"} (Area: ${largest ? largest.getArea().toFixed(2) : "N/A"})`,
+      `Smallest Shape: ${smallest ? smallest.id : "N/A"} (Area: ${smallest ? smallest.getArea().toFixed(2) : "N/A"})`,
+      "Shape Distribution:",
+      ShapeUtilities.getShapeTypeDistribution(shapes),
+    ].join("\n");
   }
 }
