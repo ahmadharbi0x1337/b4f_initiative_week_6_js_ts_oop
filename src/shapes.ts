@@ -45,6 +45,7 @@ export class Circle extends Shape implements IDrawable, ITransformable {
   // All Points on a circle circumference with a radius of r must satisfy the equation
   // (x_0 - x)^2 + (y_0 - y)^2 = r^2
   // Thus to verify if points x_0 and y_0 are inside the circle we simply check if less than or equal
+  
   isPointInside(px: number, py: number): boolean {
     const dx = px - this.center.x;
     const dy = py - this.center.y;
@@ -223,12 +224,12 @@ export class Triangle extends Shape implements IDrawable, ITransformable {
 
   isEquilateral(): boolean {
     const [a, b, c] = this.sides;
-    return a === b && b === c;
+    return a == b && b == c;
   }
 
   isIsosceles(): boolean {
     const [a, b, c] = this.sides;
-    return a === b || b === c || a === c;
+    return a == b || b == c || a == c;
   }
 
   isRightAngled(): boolean {
@@ -252,17 +253,18 @@ export class Triangle extends Shape implements IDrawable, ITransformable {
       y: (v1.y + v2.y + v3.y) / 3,
     };
   }
+
   getCircumradius(): number {
     const [a, b, c] = this.sides;
     const area = this.getArea();
-    if (area === 0) return 0;
+    if (area == 0) return 0;
     return (a * b * c) / (4 * area);
   }
 
   getInRadius(): number {
     const area = this.getArea();
     const s = this.semiPerimeter;
-    if (s === 0) return 0;
+    if (s == 0) return 0;
     return area / s;
   }
 
@@ -287,7 +289,7 @@ export class Triangle extends Shape implements IDrawable, ITransformable {
     const cos = Math.cos(theta);
     const sin = Math.sin(theta);
 
-    // نُدوّر حول المركز الهندسي
+    // تدور حول المركز الهندسي
     const { x: px, y: py } = this.getPosition();
 
     this.vertices = this.vertices.map((v) => {
@@ -299,4 +301,6 @@ export class Triangle extends Shape implements IDrawable, ITransformable {
       };
     });
   }
+
+
 }

@@ -4,7 +4,7 @@ export class ShapeManager {
   private shapes: IShape[] = [];
 
   addShape(shape: IShape): void {
-    if (this.shapes.some((s) => s.id === shape.id)) {
+    if (this.shapes.some((s) => s.id == shape.id)) {
       throw new Error(`A shape with id "${shape.id}" already exists.`);
     }
     this.shapes.push(shape);
@@ -43,15 +43,16 @@ export class ShapeManager {
   }
 
   getAverageArea(): number {
-    if (this.shapes.length === 0) return 0;
+    if (this.shapes.length == 0) return 0;
     const total = this.shapes.reduce((acc, shape) => acc + shape.getArea(), 0);
     return total / this.shapes.length;
   }
 
   getLargestPerimeter(): IShape | null {
-    if (this.shapes.length === 0) return null;
+    if (this.shapes.length == 0) return null;
     return this.shapes.reduce((largest, current) =>
       current.getPerimeter() > largest.getPerimeter() ? current : largest,
     );
   }
+  
 }
